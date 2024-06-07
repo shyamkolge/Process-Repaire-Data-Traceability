@@ -31,9 +31,21 @@ namespace Process_Repaire_Data_Traceability
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+         
+
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
             UserMaster userMaster = new UserMaster();
             userMaster.Show();
 
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            DepartmentMaster departmentMaster = new DepartmentMaster();
+            departmentMaster.Show();
         }
     }
 }
