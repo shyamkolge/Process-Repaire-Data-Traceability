@@ -23,14 +23,14 @@
         <Label Content="PROCESS REPAIR DATA TRACEABILITY" Margin="0,10,0,8" Foreground="White" Background="#FF5353FF" FontSize="24" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsHitTestVisible="False" Grid.ColumnSpan="4"/>
         <Image Margin="35,31,57,56" Source="/modiinnovation-logo.png" Grid.RowSpan="2" Grid.Row="1"/>
         <Label Content="User Name : " Margin="41,49,0,16" HorizontalAlignment="Left" Width="114" FontSize="18" FontWeight="Bold" Grid.Column="1" Grid.Row="1"/>
-        <TextBox Margin="10,48,169,15" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" BorderThickness="2,2,2,2" Name="tbUserName" FontSize="16" />
+        <TextBox Margin="10,48,169,15" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" BorderThickness="2,2,2,2" Name="tbUserName" FontSize="16" Height="40" />
         <Label Content="Password : " Margin="54,25,0,25" HorizontalAlignment="Left"  Width="101" FontSize="18" FontWeight="Bold" Grid.Column="1" Grid.Row="2"/>
-        <TextBox Margin="10,25,169,25" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" BorderThickness="2,2,2,2" Name="tbPassword" TextChanged="tbPassword_TextChanged" FontSize="16" />
+        <TextBox Margin="10,23,169,25" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" BorderThickness="2,2,2,2" Name="tbPassword" TextChanged="tbPassword_TextChanged" FontSize="16" Height="40" />
         <Label Content="Label" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Top" Grid.ColumnSpan="4" Width="800" Height="7" Background="#FF5353FF" Margin="0,10,0,0"/>
         <Label Content="Copyright @2023 Modi Innovations Pvt. Ltd. All rights reserved." Grid.ColumnSpan="2" Margin="45,69,23,14" Grid.Row="3" FontSize="9" ForceCursor="True" Foreground="#FF7B95D4" FontWeight="Bold" Grid.RowSpan="2"/>
         <TextBlock Text="Forgot Password" TextDecorations="Underline" Foreground="#FF7B95D4" FontWeight="Medium" Margin="51,11,5,49" Grid.Row="3" Grid.Column="1" Cursor="Hand"/>
-        <Button Content="LOGIN" Margin="10,5,39,54" Background="#FF5353FF" Foreground="White" FontWeight="Bold" FontSize="16" Grid.Column="2" Grid.Row="3" RenderTransformOrigin="0.508,0.514" Click="Button_Click_1" Cursor="Hand" />
-        <Button Content="EXIT" Margin="10,5,124,54" Background="#FF5353FF" Foreground="White" FontWeight="Bold" FontSize="16" Grid.Column="3" Grid.Row="3" Click="Button_Click" Cursor="Hand" />
+        <Button Content="LOGIN" Margin="10,5,40,54" Background="#FF5353FF" Foreground="White" FontWeight="Bold" FontSize="16" Grid.Column="2" Grid.Row="3" RenderTransformOrigin="0.508,0.514" Click="Button_Click_1" Cursor="Hand" />
+        <Button Content="EXIT" Margin="0,5,134,54" Background="#FF5353FF" Foreground="White" FontWeight="Bold" FontSize="16" Grid.Column="3" Grid.Row="3" Click="Button_Click" Cursor="Hand" />
 
     </Grid>
 </Window>
