@@ -29,12 +29,39 @@ namespace Process_Repaire_Data_Traceability
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            HomePage homePage = new HomePage();
-            homePage.WindowState = WindowState.Maximized;
-            homePage.Show();
+            string connectionString = "Data Source=SHYAM\\SQLEXPRESS;Initial Catalog=ModiInnovations;Integrated Security=True;";
+            SqlConnection connection = new SqlConnection(connectionString);
 
-            // Close current login window
-            this.Close();
+            connection.Open();
+
+            string userName = tbUserName.Text;
+            string password = tbPassword.Text;
+
+            string query = "SELECT COUNT(*) FROM Users WHERE UserName = @UserName AND Password = @Password";
+            SqlCommand cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@UserName", userName);
+            cmd.Parameters.AddWithValue("@Password", password);
+
+            int count = (int)cmd.ExecuteScalar();
+
+            if (count > 0)
+            {
+                // Valid credentials, allow user to proceed
+                HomePage homePage = new HomePage();
+                homePage.WindowState = WindowState.Maximized;
+                homePage.Show();
+
+                // Close current login window
+                this.Close();
+            }
+            else
+            {
+                // Invalid credentials, display error message
+    
+                MessageBox.Show("Invalid Username or Password", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
+            connection.Close();
 
 
         }
