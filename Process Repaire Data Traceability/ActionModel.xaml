@@ -15,33 +15,41 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="77*"/>
-                <RowDefinition Height="224*"/>
-                <RowDefinition Height="108*"/>
+                <RowDefinition Height="332*"/>
                 <RowDefinition Height="31*"/>
                 <RowDefinition Height="48*"/>
                 <RowDefinition Height="48*"/>
                 <RowDefinition Height="44*"/>
             </Grid.RowDefinitions>
-
-            <Label Content="Defect Name : " HorizontalAlignment="Left" Margin="16,13,0,0" Grid.Row="4" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="96" RenderTransformOrigin="0.205,0.492"/>
-
-            <TextBox x:Name="Defectname_txt" HorizontalAlignment="Left" Margin="110,11,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" Width="143" Height="30" Grid.ColumnSpan="2"/>
-
-            <Label Content="Action Name : " HorizontalAlignment="Left" Margin="15,15,0,0" Grid.Row="4" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="92" Grid.Column="1"/>
-            <TextBox x:Name="Actionname_txt" HorizontalAlignment="Left" Margin="112,12,0,0" Grid.Row="4" TextWrapping="Wrap" VerticalAlignment="Top" Width="185" Grid.Column="1" Height="30"/>
-
-            <Label Content="Status : " HorizontalAlignment="Left" Margin="317,16,0,0" Grid.Row="4" VerticalAlignment="Top" Grid.Column="1" FontWeight="Bold" Height="26" Width="54" Grid.ColumnSpan="2"/>
-
-            <Button x:Name="reset_btn" Grid.Column="1" Content="Reset" HorizontalAlignment="Left" Margin="23,0,0,0" Grid.Row="6" VerticalAlignment="Center" Height="30" Width="76" Background="#FF23D0E5" Foreground="White" MaxWidth="100" MaxHeight="50" Click="reset_btn_Click"/>
-            <RadioButton x:Name="InactiveRadioButton" Grid.Column="2" Content="Inactive"  GroupName="Status" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Top" Margin="104,23,0,0" Height="15" Width="85"/>
-            <RadioButton x:Name="ActiveRadioButton" IsChecked="True" Grid.Column="2" Content="Active"  GroupName="Status" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Top" Margin="42,23,0,0" Height="15" Width="55"/>
-            <Button x:Name="save_btn" Grid.Column="1" Content="Save" HorizontalAlignment="Left" Grid.Row="6" Width="76" Background="#FF327B51" Foreground="White" Click="save_btn_Click" Margin="127,7,0,7"/>
-            <Button x:Name="delete_btn" Grid.Column="1" Content="Delete" HorizontalAlignment="Left" Margin="228,0,0,0" Grid.Row="6" VerticalAlignment="Center" Height="30" Width="76" Foreground="White" Background="Red" Click="delete_btn_Click"/>
-            <DataGrid x:Name="dataGrid" IsReadOnly="True" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,62,0,0" Grid.ColumnSpan="3" SelectionChanged="DataGrid_SelectionChanged" Grid.Row="1" Grid.RowSpan="2"/>
             <Label Content="PROCESS REPAIR DEFECT RECORDING SYSTEM" HorizontalAlignment="Left" Margin="189,0,0,0" VerticalAlignment="Center" Width="470" FontSize="20" FontWeight="Bold" Grid.ColumnSpan="3" Foreground="Red" HorizontalContentAlignment="Center" Height="37"/>
-            <Label Content="ACTION MASTER" HorizontalAlignment="Left" Margin="1,1,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="846" Foreground="White" Background="Red" HorizontalContentAlignment="Center" FontSize="16" FontWeight="SemiBold" Height="31" Grid.Row="1"/>
-            <Label Content="Note : Click on record to edit." HorizontalAlignment="Left" Margin="0,31,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="846" FontWeight="Bold" Height="26"/>
-            <Label Content="Editor -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" HorizontalAlignment="Left" Margin="0,2,0,0" Grid.Row="3" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="847" FontWeight="Bold" Height="25"/>
+            <Label Content="ACTION MASTER" HorizontalAlignment="Left" Margin="1,77,0,0" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="846" Foreground="White" Background="Red" HorizontalContentAlignment="Center" FontSize="16" FontWeight="SemiBold" Grid.RowSpan="2" Height="31"/>
+            <Label Content="Note : Click on record to edit." HorizontalAlignment="Left" Margin="1,31,0,0" Grid.Row="1" VerticalAlignment="Top" Width="223" FontWeight="Bold" Height="26"/>
+
+            <DataGrid x:Name="dataGrid" IsReadOnly="True" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="0,70,0,0" Grid.ColumnSpan="3" SelectionChanged="DataGrid_SelectionChanged" Grid.Row="1"/>
+
+            <ComboBox x:Name="DepartmentComboBox" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Top" Width="237" Height="30" Margin="67,11,0,0" Grid.ColumnSpan="2">
+                <ComboBoxItem IsEnabled="False" IsSelected="True">Select Defect</ComboBoxItem>
+            </ComboBox>
+
+            <Label Content="Defect : " HorizontalAlignment="Left" Margin="11,9,0,0" Grid.Row="3" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="85"/>
+
+            <Label Content="Status : " HorizontalAlignment="Left" Margin="11,10,0,0" Grid.Row="4" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="54"/>
+            <RadioButton x:Name="InactiveRadioButton" Content="Inactive"  GroupName="Status" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center" Height="15" Width="69" Margin="131,0,0,0"/>
+            <RadioButton x:Name="ActiveRadioButton" IsChecked="True" Content="Active"  GroupName="Status" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center" Height="15" Width="57" Margin="71,0,0,0"/>
+
+
+            <Label Content="Editor -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------" HorizontalAlignment="Left" Margin="0,2,0,0" Grid.Row="2" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="847" FontWeight="Bold" Height="25"/>
+
+            <Button x:Name="reset_btn" Grid.Column="1" Content="Reset" HorizontalAlignment="Left" Margin="23,0,0,0" Grid.Row="5" VerticalAlignment="Center" Height="30" Width="76" Background="#FF23D0E5" Foreground="White" MaxWidth="100" MaxHeight="50" Click="reset_btn_Click"/>
+            <Button x:Name="save_btn" Grid.Column="1" Content="Save" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Center" Height="30" Width="76" Background="#FF327B51" Foreground="White" Click="save_btn_Click"/>
+            <Button x:Name="delete_btn" Grid.Column="1" Content="Delete" HorizontalAlignment="Left" Margin="228,0,0,0" Grid.Row="5" VerticalAlignment="Center" Height="30" Width="76" Foreground="White" Background="Red" Click="delete_btn_Click"/>
+            <Label Grid.Column="1" Content="Action ID : " HorizontalAlignment="Left" Margin="302,36,0,0" Grid.Row="1" VerticalAlignment="Top" Width="69" Grid.ColumnSpan="2" FontWeight="Bold"/>
+            <TextBox x:Name="ActionId_txt" Grid.Column="2" HorizontalAlignment="Left" Margin="51,36,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="158" Height="30" TextChanged="TextBox_TextChanged"/>
+
+
+            <Label Content="Action Name : " HorizontalAlignment="Left" Margin="148,10,0,0" Grid.Row="3" VerticalAlignment="Top" FontWeight="Bold" Height="26" Width="98" Grid.Column="1"/>
+            <TextBox x:Name="Action_txt" HorizontalAlignment="Left" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" Width="271" Height="30" Grid.Column="1" Margin="245,0,0,0" Grid.ColumnSpan="2"/>
+
 
         </Grid>
 

@@ -27,27 +27,9 @@ namespace Process_Repaire_Data_Traceability
         {
             InitializeComponent();
             LoadGridData();
+            loadComboOptions();
         }
 
-        public bool isValid()
-        {
-
-            if (Defectname_txt.Text == String.Empty)
-            {
-                MessageBox.Show("DefectName is required", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-
-            if (Actionname_txt.Text == String.Empty)
-            {
-                MessageBox.Show("DefectName is required", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
-                return false;
-            }
-
-
-
-            return true;
-        }
         public void LoadGridData()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -62,16 +44,71 @@ namespace Process_Repaire_Data_Traceability
 
                 dataGrid.ItemsSource = dataTable.DefaultView;
             }
+        }
 
+        public void loadComboOptions()
+        {
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("SELECT DefectName  FROM DefectMaster", conn); // Adjust this query to match your database schema
+                DataTable dataTable = new DataTable();
+
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                dataTable.Load(reader);
+                conn.Close();
+
+
+                DepartmentComboBox.Items.Clear();
+                DepartmentComboBox.Items.Add(new ComboBoxItem { Content = "Select Defect", IsEnabled = false, IsSelected = true });
+
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    DepartmentComboBox.Items.Add(row["DefectName"].ToString());
+                }
+
+                /* DepartmentComboBox.ItemsSource = dataTable.DefaultView;
+                 DepartmentComboBox.DisplayMemberPath = "DepartmentName";
+                 DepartmentComboBox.SelectedValuePath = "DepartmentName";*/
+
+
+            }
         }
 
         public void clearData()
         {
-            Defectname_txt.Clear();
-            Actionname_txt.Clear();
+            ActionId_txt.Clear();
+            Action_txt.Clear();
+            DepartmentComboBox.SelectedIndex = 0;
             ActiveRadioButton.IsChecked = false;
             InactiveRadioButton.IsChecked = false;
+            save_btn.Content = "Save";
+            Action_txt.IsEnabled = true;
+        }
 
+        public bool isValid()
+        {
+            if (Action_txt.Text == String.Empty)
+            {
+                MessageBox.Show("Defect Name is required", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            if (ActionId_txt.Text == String.Empty)
+            {
+                MessageBox.Show("Defect Id is required", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+
+            if (ActiveRadioButton.IsChecked == false && InactiveRadioButton.IsChecked == false)
+            {
+                MessageBox.Show("Status is required", "Failed", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+
+            return true;
         }
 
         private void reset_btn_Click(object sender, RoutedEventArgs e)
@@ -81,16 +118,6 @@ namespace Process_Repaire_Data_Traceability
 
         private void save_btn_Click(object sender, RoutedEventArgs e)
         {
-            string defectName = Defectname_txt.Text;
-            string actionName = Actionname_txt.Text;
-            string updatedBy = "Admin"; // Assuming "Admin" for now
-            string createdBy = "Admin"; // Assuming "Admin" for now
-            string status = ActiveRadioButton.IsChecked == true ? "Active" : "Inactive";
-
-            string query = "INSERT INTO ActionModel (DefectName, ActionName, UpdatedBy, CreatedBy, UpdatedDateTime, Status) " +
-                           "VALUES (@DefectName, @ActionName, @UpdatedBy, @CreatedBy, GETDATE(), @Status)";
-
-
             if (isValid())
             {
                 if (save_btn.Content.ToString() == "Save")
@@ -106,14 +133,23 @@ namespace Process_Repaire_Data_Traceability
 
         private void InsertUser()
         {
+
+
             // Read input values
-            string defectName = Defectname_txt.Text;
-            string actionName = Actionname_txt.Text;
+            string ActionId = ActionId_txt.Text;
+            string ActionName = Action_txt.Text;
+            string Department = DepartmentComboBox.SelectedValue.ToString();
             string createdBy = "Admin"; // Assuming "Admin" for now
             string status = ActiveRadioButton.IsChecked == true ? "Active" : "Inactive";
 
-            string query = "INSERT INTO ActionModel (DefectName, ActionName, CreatedBy, CreatedDateTime, Status) " +
-                           "VALUES (@DefectName, @ActionName, @CreatedBy, GETDATE(), @Status)";
+            if (Department == "Select Defect")
+            {
+                MessageBox.Show("Please select a valid department.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string query = "INSERT INTO ActionModel (ActionId, ActionName,DefectName, CreatedBy, CreatedDateTime, Status) " +
+                           "VALUES (@ActionId, @ActionName, @Department, @CreatedBy, GETDATE(), @Status)";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -123,17 +159,20 @@ namespace Process_Repaire_Data_Traceability
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         // Set parameters
-                        command.Parameters.AddWithValue("@DefectName", defectName);
-                        command.Parameters.AddWithValue("@ActionName", actionName);
+                        command.Parameters.AddWithValue("@ActionId", ActionId);
+
+                        command.Parameters.AddWithValue("@ActionName", ActionName);
+                        command.Parameters.AddWithValue("@Department", Department);
                         command.Parameters.AddWithValue("@CreatedBy", createdBy);
                         command.Parameters.AddWithValue("@Status", status);
 
                         command.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("Action registered successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("User registered successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadGridData(); // Refresh the grid data
                     clearData();
+
                 }
                 catch (Exception ex)
                 {
@@ -142,17 +181,25 @@ namespace Process_Repaire_Data_Traceability
             }
         }
 
+
         private void UpdateUser()
         {
-
-            string defectName = Defectname_txt.Text;
-            string actionName = Actionname_txt.Text;
+            // Read input values
+            string ActionId = ActionId_txt.Text;
+            string ActionName = Action_txt.Text;
+            string Department = DepartmentComboBox.SelectedValue.ToString();
+            string createdBy = "Admin"; // Assuming "Admin" for now
             string updatedBy = "Admin"; // Assuming "Admin" for now
             string status = ActiveRadioButton.IsChecked == true ? "Active" : "Inactive";
 
-            string query = "UPDATE ActionModel SET DefectName=@DefectName, ActionName=@ActionName," +
-                   "UpdatedBy=@UpdatedBy, UpdatedDateTime=GETDATE(), Status=@Status " +
-                   "WHERE DefectName=@DefectName AND ActionName=@ActionName";
+            if (Department == "Select Defect")
+            {
+                MessageBox.Show("Please select a valid department.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string query = "UPDATE ActionModel SET ActionId=@ActionId, ActionName=@ActionName," +
+                           "DefectName=@Department, UpdatedBy=@UpdatedBy, UpdatedDateTime=GETDATE(), Status=@Status WHERE ActionId=@ActionId";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -162,19 +209,20 @@ namespace Process_Repaire_Data_Traceability
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         // Set parameters
-                        command.Parameters.AddWithValue("@DefectName", defectName);
-                        command.Parameters.AddWithValue("@ActionName", actionName);
+                        command.Parameters.AddWithValue("@ActionId", ActionId);
+                        command.Parameters.AddWithValue("@ActionName", ActionName);
+                        command.Parameters.AddWithValue("@Department", Department);
                         command.Parameters.AddWithValue("@UpdatedBy", updatedBy);
                         command.Parameters.AddWithValue("@Status", status);
 
                         command.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("Action Master updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("User updated successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadGridData(); // Refresh the grid data
                     clearData();
-                    save_btn.Content = "Save";
-
+                    save_btn.Content = "Save"; // Change button text back to "Save"
+                    ActionId_txt.IsEnabled = true;
                 }
                 catch (Exception ex)
                 {
@@ -185,14 +233,15 @@ namespace Process_Repaire_Data_Traceability
 
         private void delete_btn_Click(object sender, RoutedEventArgs e)
         {
+
             if (dataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Please select a Action to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Please select a user to delete.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             DataRowView row = (DataRowView)dataGrid.SelectedItem;
-            string id = row["ActionId"].ToString();
+            string ActionId = row["ActionId"].ToString();
 
             string query = "DELETE FROM ActionModel WHERE ActionId=@ActionId";
 
@@ -204,11 +253,11 @@ namespace Process_Repaire_Data_Traceability
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         // Set parameters
-                        command.Parameters.AddWithValue("@ActionId", id);
+                        command.Parameters.AddWithValue("@ActionId", ActionId);
                         command.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("Action deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("User deleted successfully.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
                     LoadGridData(); // Refresh the grid data
                     clearData();
                 }
@@ -224,8 +273,10 @@ namespace Process_Repaire_Data_Traceability
             if (dataGrid.SelectedItem != null)
             {
                 DataRowView row = (DataRowView)dataGrid.SelectedItem;
-                Defectname_txt.Text = row["DefectName"].ToString();
-                Actionname_txt.Text = row["ActionName"].ToString();
+                ActionId_txt.Text = row["ActionId"].ToString();
+                Action_txt.Text = row["ActionName"].ToString();
+
+                DepartmentComboBox.SelectedValue = row["DefectName"].ToString();
                 if (row["Status"].ToString() == "Active")
                 {
                     ActiveRadioButton.IsChecked = true;
@@ -236,8 +287,16 @@ namespace Process_Repaire_Data_Traceability
                 }
 
                 save_btn.Content = "Update";
+                ActionId_txt.IsEnabled = false;
             }
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+
 
     }
 }
