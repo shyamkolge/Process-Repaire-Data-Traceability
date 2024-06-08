@@ -47,5 +47,17 @@ namespace Process_Repaire_Data_Traceability
             DepartmentMaster departmentMaster = new DepartmentMaster();
             departmentMaster.Show();
         }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            ActionModel actionModel = new ActionModel();
+            actionModel.Show();
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            DefectMaster defectMaster = new DefectMaster(); 
+            defectMaster.Show();
+        }
     }
 }

@@ -21,8 +21,8 @@
             <Button Content="Model Master" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" Height="53" Width="96" Click="Button_Click"/>
             <Button Content="Department Master" HorizontalAlignment="Left" Margin="506,13,0,0" Grid.Row="1" VerticalAlignment="Top" Height="53" Width="127" Click="Button_Click_3"/>
             <Button Content="User Master" HorizontalAlignment="Left" Margin="201,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="53" Width="96" Click="Button_Click_2"/>
-            <Button Content="Action Master" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="53" Width="96"/>
-            <Button Content="Defect Master" HorizontalAlignment="Left" Margin="506,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="53" Width="96"/>
+            <Button Content="Action Master" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center" Height="53" Width="96" Click="Button_Click_4"/>
+            <Button Content="Defect Master" HorizontalAlignment="Left" Margin="506,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="53" Width="96" Click="Button_Click_5"/>
         </Grid>
     </Border>
 </Window>
